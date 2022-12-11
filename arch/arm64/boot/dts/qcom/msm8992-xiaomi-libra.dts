@@ -131,7 +131,7 @@
 
 		ramoops@dfc00000 {
 			compatible = "ramoops";
-			reg = <0 0xdfc00000 0 0x40000>;
+			reg = <0x0 0x1ff00000 0x0 0x40000>;
 			console-size = <0x10000>;
 			record-size = <0x10000>;
 			ftrace-size = <0x10000>;
