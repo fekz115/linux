@@ -16,6 +16,7 @@
 /delete-node/ &mpss_mem;
 /delete-node/ &peripheral_region;
 /delete-node/ &rmtfs_mem;
+/delete-node/ &cont_splash_mem;
 
 / {
 	model = "Xiaomi Mi 4C";
@@ -137,6 +138,21 @@
 			ftrace-size = <0x10000>;
 			pmsg-size = <0x20000>;
 		};
+
+		modem_region: modem_region@9000000 {
+			reg = <0x0 0x9000000 0x0 0x5a00000>;
+			no-map;
+		};
+
+		peripheral_region: memory@7400000 {
+			reg = <0x0 0x7400000 0x0 0x1c00000>;
+			no-map;
+		};
+
+		cont_splash_mem: memory@3400000 {
+			reg = <0 0x03400000 0 (1080 * 1920 * 3)>;
+			no-map;
+		};
 	};
 
 	ts_vreg: ts_vreg {
@@ -228,6 +244,10 @@
 
 &blsp2_uart2 {
 	status = "okay";
+};
+
+&mpss_mem {
+	reg = <0 0x07000000 0 0x400000>;
 };
 
 &pm8994_spmi_regulators {
