@@ -28,9 +28,12 @@
 	qcom,pmic-id = <65545 65546 0 0>;
 	qcom,board-id = <12 0>;
 
+	/* libra firmware doesn't support PSCI */
+	/delete-node/ psci;
+
 	/* This enables graphical output via bootloader-enabled display */
 	chosen {
-		bootargs = "earlycon=tty0 console=tty0 maxcpus=1";
+		bootargs = "earlycon=tty0 console=tty0";
 
 		#address-cells = <2>;
 		#size-cells = <2>;
@@ -76,6 +79,11 @@
 		#address-cells = <2>;
 		#size-cells = <2>;
 		ranges;
+
+		spin-table@6000000 {
+			reg = <0 0x06000000 0 0x1000>;
+			no-map;
+		};
 
 		memory_hole: hole@6400000 {
 			reg = <0 0x06400000 0 0x600000>;
