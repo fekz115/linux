@@ -678,6 +678,12 @@ static int wait_conversion_complete_polled(struct ak8975_data *data)
 			dev_err(&client->dev, "Error in reading ST1\n");
 			return ret;
 		}
+		ret = i2c_smbus_read_byte_data(client,
+                                               data->def->ctrl_regs[ST2]);
+                if (ret < 0) {
+                        dev_err(&client->dev, "Error in reading ST2\n");
+                        return ret;
+                }
 		read_status = ret;
 		if (read_status)
 			break;
