@@ -76,15 +76,14 @@
 		magnetometer@c {
 			compatible = "asahi-kasei,ak09918";
 			reg = <0x0c>;
-			vdd-supply = <&pm8953_l10>;
-			vid-supply = <&pm8953_l6>;
+			vdd-supply = <&pm8953_l6>;
 			mount-matrix = "1", "0", "0",
 					"0", "1", "0",
 					"0", "0", "1";
 		};
 
 		light-sensor@53 {
-			compatible = "liteon,ltrf216a";
+			compatible = "liteon,ltr579";
 			reg = <0x53>;
 			vdd-supply = <&pm8953_l10>;
 		};
