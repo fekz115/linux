@@ -358,6 +358,17 @@ config LTRF216A
 	  If built as a dynamically linked module, it will be called
 	  ltrf216a.
 
+config LTR579
+        tristate "Liteon LTR579 Light and Proximity Sensor"
+        depends on I2C
+        select REGMAP_I2C
+        help
+          If you say Y or M here, you get support for Liteon LTR579
+          Ambient Light and Proximity Sensor.
+
+          If built as a dynamically linked module, it will be called
+          ltr579.
+
 config LV0104CS
 	tristate "LV0104CS Ambient Light Sensor"
 	depends on I2C
