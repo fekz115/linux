@@ -507,13 +507,13 @@ static int ltr579_get_lux(struct ltr579_priv *data)
 }
 
 static int ltr579_read_raw_template(struct ltr579_priv *data,
-				    read_function read_function, u8 mask,
+				    read_function read_function, enum ltr579_fields field,
 				    int *val)
 {
 	int ret;
 	mutex_lock(&data->lock);
 	/* enable sensor */
-	ret = regmap_update_bits(data->regs, LTR579_MAIN_CTRL, mask, 1);
+	ret = regmap_field_write(data->fields[field], 1);
 	/* wait for oscillator (power up) */
 	usleep_range(5000, 6000);
 	if (ret < 0) {
@@ -530,7 +530,7 @@ static int ltr579_read_raw_template(struct ltr579_priv *data,
 		*val = ret;
 	}
 	/* enable sensor */
-	ret = regmap_update_bits(data->regs, LTR579_MAIN_CTRL, mask, 0);
+	ret = regmap_field_write(data->fields[field], 0);
 	/* wait for oscillator (shutdown) */
 	usleep_range(5000, 6000);
 	mutex_unlock(&data->lock);
@@ -645,11 +645,11 @@ static int ltr579_read_raw(struct iio_dev *indio_dev,
 		case IIO_CHAN_INFO_RAW:
 			return ltr579_read_raw_template(data,
 							&ltr579_read_als_data,
-							LTR579_ALS_ENABLE_MASK,
+							F_ALS_ENABLE,
 							val);
 		case IIO_CHAN_INFO_PROCESSED:
 			return ltr579_read_raw_template(data, &ltr579_get_lux,
-							LTR579_ALS_ENABLE_MASK,
+							F_ALS_ENABLE,
 							val);
 		case IIO_CHAN_INFO_SCALE:
 			return ltr579_als_gain_read_raw(indio_dev, chan, val,
@@ -668,7 +668,7 @@ static int ltr579_read_raw(struct iio_dev *indio_dev,
 		case IIO_CHAN_INFO_RAW:
 			return ltr579_read_raw_template(data,
 							&ltr579_read_ps_data,
-							LTR579_PS_ENABLE_MASK,
+							F_PS_ENABLE,
 							val);
 		case IIO_CHAN_INFO_SAMP_FREQ:
 			return ltr579_ps_measurement_rate_read_raw(
