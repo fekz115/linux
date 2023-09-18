@@ -86,6 +86,7 @@
 			compatible = "liteon,ltr579";
 			reg = <0x53>;
 			vdd-supply = <&pm8953_l10>;
+			vddio-supply = <&pm8953_l6>;
 		};
 
 		imu@68 {
