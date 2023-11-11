@@ -17,6 +17,30 @@
 /delete-node/ &dfps_data_mem;
 /delete-node/ &cont_splash_mem;
 
+&CPU0 {
+	enable-method = "spin-table";
+};
+
+&CPU1 {
+	enable-method = "spin-table";
+};
+
+&CPU2 {
+	enable-method = "spin-table";
+};
+
+&CPU3 {
+	enable-method = "spin-table";
+};
+
+&CPU4 {
+	enable-method = "spin-table";
+};
+
+&CPU5 {
+	enable-method = "spin-table";
+};
+
 / {
 	model = "Xiaomi Mi 4C";
 	compatible = "xiaomi,libra", "qcom,msm8992";
@@ -27,9 +51,12 @@
 	qcom,pmic-id = <65545 65546 0 0>;
 	qcom,board-id = <12 0>;
 
+	/* libra firmware doesn't support PSCI */
+	/delete-node/ psci;
+
 	/* This enables graphical output via bootloader-enabled display */
 	chosen {
-		bootargs = "earlycon=tty0 console=tty0 maxcpus=1";
+		bootargs = "earlycon=tty0 console=tty0";
 
 		#address-cells = <2>;
 		#size-cells = <2>;
@@ -76,6 +103,11 @@
 		#size-cells = <2>;
 		ranges;
 
+		spin-table@6000000 {
+			reg = <0 0x06000000 0 0x1000>;
+			no-map;
+		};
+
 		memory_hole: hole@6400000 {
 			reg = <0 0x06400000 0 0x600000>;
 			no-map;
@@ -83,16 +115,6 @@
 
 		memory_hole2: hole2@6c00000 {
 			reg = <0 0x06c00000 0 0x2400000>;
-			no-map;
-		};
-
-		mpss_mem: mpss@9000000 {
-			reg = <0 0x09000000 0 0x5a00000>;
-			no-map;
-		};
-
-		tzapp: tzapp@ea00000 {
-			reg = <0 0x0ea00000 0 0x1900000>;
 			no-map;
 		};
 
